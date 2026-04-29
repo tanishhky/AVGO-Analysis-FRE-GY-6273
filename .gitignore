@@ -1,0 +1,50 @@
+# =============================================================================
+# AVGO equity research — .gitignore
+# =============================================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- LaTeX intermediate files ---
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/*.fdb_latexmk
+report/*.fls
+report/*.bbl
+report/*.blg
+report/*.lof
+report/*.lot
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# --- IDE ---
+.vscode/
+.idea/
+*.code-workspace
+
+# =============================================================================
+# Note: the following ARE checked in (not ignored):
+# - data/*.csv, data/*.json   (raw market data; team can refresh via 01_data_fetch.py)
+# - output/*.csv, output/*.xlsx (computed outputs; convenient for sharing)
+# - figures/*.png             (computed figures)
+# - report/*.pdf              (compiled report)
+# - report/fig*.png           (figures copied into report/ for LaTeX)
+# Comment out or remove the lines above if you want to gitignore generated artifacts.
+# =============================================================================
