@@ -50,7 +50,7 @@ plt.rcParams.update({
     'legend.frameon': False,
     'legend.fontsize': 9,
     'figure.dpi': 140,
-    'savefig.dpi': 200,
+    'savefig.dpi': 300,
     'savefig.bbox': 'tight',
     'savefig.facecolor': 'white',
 })
@@ -74,20 +74,20 @@ def fig1_price_chart():
     s_norm = s_idx / s_idx.iloc[0] * 100
     x_norm = x_idx / x_idx.iloc[0] * 100
 
-    fig, ax = plt.subplots(figsize=(11, 5))
+    fig, ax = plt.subplots(figsize=(12, 5.5))
     ax.plot(a_norm.index, a_norm.values, color=NYU_VIOLET, linewidth=2.0, label='AVGO')
     ax.plot(s_norm.index, s_norm.values, color=NYU_GREY, linewidth=1.0, label='S&P 500', alpha=0.7)
     ax.plot(x_norm.index, x_norm.values, color=ACCENT_GOLD, linewidth=1.0, label='PHLX Semi (^SOX)', alpha=0.7)
 
-    # Annotate key deal events
+    # Annotate key deal events with staggered offsets to prevent overlap
     events = [
-        ('2025-10-13', 'OpenAI 10GW deal', 0.20),
-        ('2025-12-11', 'Q4 FY25 print\n(GM warning)', -0.18),
-        ('2026-03-04', 'Q1 FY26 beat\n+$100B FY27 AI', 0.20),
-        ('2026-04-14', 'Meta MTIA\nextended', -0.18),
-        ('2026-04-22', 'Anthropic 3.5GW\n+ Google CNI', 0.22),
+        ('2025-10-13', 'OpenAI 10GW',           +55),
+        ('2025-12-11', 'Q4 FY25 GM warning',    -90),
+        ('2026-03-04', 'Q1 FY26: +$100B FY27 AI', +85),
+        ('2026-04-14', 'Meta MTIA extended',    -85),
+        ('2026-04-22', 'Anthropic 3.5GW',       +30),
     ]
-    for date_str, label, dy in events:
+    for date_str, label, dy_pts in events:
         d = pd.Timestamp(date_str)
         if d in a_norm.index:
             y = a_norm.loc[d]
@@ -96,10 +96,10 @@ def fig1_price_chart():
             if not mask.any():
                 continue
             y = a_norm[mask].iloc[0]
-        ax.scatter([d], [y], color=ACCENT_RED, zorder=5, s=30)
-        ax.annotate(label, (d, y), xytext=(0, dy * 100), textcoords='offset points',
-                    ha='center', fontsize=8, color=NYU_DARK,
-                    arrowprops=dict(arrowstyle='-', color=NYU_DARK, lw=0.5))
+        ax.scatter([d], [y], color=ACCENT_RED, zorder=5, s=35)
+        ax.annotate(label, (d, y), xytext=(0, dy_pts), textcoords='offset points',
+                    ha='center', fontsize=8, color=NYU_DARK, fontweight='bold',
+                    arrowprops=dict(arrowstyle='-', color=NYU_DARK, lw=0.6, alpha=0.6))
 
     ax.axhline(100, color='#888', linewidth=0.5, linestyle='--')
     ax.set_ylabel('Indexed price (Apr-2024 = 100)')
@@ -243,7 +243,7 @@ def fig5_monte_carlo():
     mc = pd.read_csv(f'{OUT_DIR}/mc_distribution.csv')['price'].values
     spot = 422.76
 
-    fig, ax = plt.subplots(figsize=(11, 5))
+    fig, ax = plt.subplots(figsize=(12, 5.5))
     n, bins, patches = ax.hist(mc, bins=60, color=NYU_VIOLET, alpha=0.78, edgecolor='white')
     for p, b in zip(patches, bins[:-1]):
         if b < 350:
@@ -252,10 +252,12 @@ def fig5_monte_carlo():
             p.set_facecolor(ACCENT_GREEN)
 
     p25, med, p75 = np.percentile(mc, [25, 50, 75])
-    ax.axvline(spot, color='black', linestyle='--', linewidth=2.0, label=f'Spot ${spot:.0f}')
-    ax.axvline(med,  color=NYU_DARK, linestyle='-', linewidth=2.0, label=f'Median ${med:.0f}')
-    ax.axvline(p25,  color='#888', linestyle=':', linewidth=1.5, label=f'P25 ${p25:.0f}')
-    ax.axvline(p75,  color='#888', linestyle=':', linewidth=1.5, label=f'P75 ${p75:.0f}')
+    ax.axvline(spot, color='black', linestyle='--', linewidth=2.2, label=f'Spot ${spot:.0f}', zorder=5)
+    ax.axvline(med,  color=NYU_DARK, linestyle='-', linewidth=2.4, label=f'Median ${med:.0f}', zorder=5)
+    ax.axvline(p25,  color='#404040', linestyle='--', linewidth=1.5, label=f'P25 ${p25:.0f}',
+               dashes=(6, 3), zorder=4, alpha=0.9)
+    ax.axvline(p75,  color='#404040', linestyle='--', linewidth=1.5, label=f'P75 ${p75:.0f}',
+               dashes=(6, 3), zorder=4, alpha=0.9)
 
     prob_above = (mc > spot).mean() * 100
     txt = (f'10,000 simulations\n'
@@ -432,10 +434,21 @@ def fig10_tornado():
 
     fig, ax = plt.subplots(figsize=(10, 5.5))
     for i, (driver, low, high) in enumerate(drivers):
-        ax.barh(i, high, color=NYU_VIOLET, alpha=0.85, edgecolor='white')
-        ax.barh(i, low, color=ACCENT_RED, alpha=0.85, edgecolor='white')
-        ax.text(high + 1.5, i, f'+${high}', va='center', fontsize=9, color=NYU_DARK)
-        ax.text(low - 1.5, i, f'-${abs(low)}', va='center', ha='right', fontsize=9, color=NYU_DARK)
+        # Color by sign: positive price impact = violet (good), negative = red (bad)
+        ax.barh(i, high, color=NYU_VIOLET if high > 0 else ACCENT_RED, alpha=0.85, edgecolor='white')
+        ax.barh(i, low,  color=NYU_VIOLET if low  > 0 else ACCENT_RED, alpha=0.85, edgecolor='white')
+        # Show the actual signed value (handle negative-on-positive-side correctly)
+        right_label = f'{high:+d}'.replace('+', '+$').replace('-', '-$') if high != 0 else '$0'
+        left_label  = f'{low:+d}'.replace('+', '+$').replace('-', '-$')  if low  != 0 else '$0'
+        # Place each label on the side its bar extends to
+        if high >= 0:
+            ax.text(high + 1.5, i, right_label, va='center', ha='left', fontsize=9, color=NYU_DARK)
+        else:
+            ax.text(high - 1.5, i, right_label, va='center', ha='right', fontsize=9, color=NYU_DARK)
+        if low <= 0:
+            ax.text(low - 1.5, i, left_label, va='center', ha='right', fontsize=9, color=NYU_DARK)
+        else:
+            ax.text(low + 1.5, i, left_label, va='center', ha='left', fontsize=9, color=NYU_DARK)
     ax.set_yticks(range(len(drivers)))
     ax.set_yticklabels([d[0] for d in drivers])
     ax.invert_yaxis()
@@ -446,8 +459,8 @@ def fig10_tornado():
     ax.set_xlim(-90, 90)
     ax.grid(True, axis='x', alpha=0.2)
     legend_handles = [
-        mpatches.Patch(color=NYU_VIOLET, label='Upside (+20% input shock)'),
-        mpatches.Patch(color=ACCENT_RED, label='Downside (-20% input shock)'),
+        mpatches.Patch(color=NYU_VIOLET, label='Price upside (+$ impact)'),
+        mpatches.Patch(color=ACCENT_RED, label='Price downside (-$ impact)'),
     ]
     ax.legend(handles=legend_handles, loc='lower right')
     plt.tight_layout()
@@ -460,25 +473,26 @@ def fig10_tornado():
 # FIGURE 11: Risk heatmap
 # ============================================================
 def fig11_risk_matrix():
+    # (name, prob, impact, label_dx_pt, label_dy_pt)
     risks = [
-        ('Hyperscaler capex cyclicality', 0.45, 0.85, 'Capex'),
-        ('Customer concentration (top 2 = 60%)', 0.35, 0.80, 'Concentration'),
-        ('Margin compression on rack-scale mix', 0.30, 0.55, 'Margins'),
-        ('VMware enterprise churn (price-driven)', 0.45, 0.45, 'Software'),
-        ('COT competition (Google Zebrafish)', 0.20, 0.65, 'Competition'),
-        ('China export restrictions', 0.50, 0.55, 'Geopolitical'),
-        ('AI bubble revaluation', 0.35, 0.95, 'Macro'),
-        ('TSMC capacity constraints', 0.40, 0.50, 'Supply'),
-        ('FX headwinds', 0.45, 0.20, 'FX'),
-        ('Hock Tan succession', 0.10, 0.70, 'Governance'),
+        ('Hyperscaler capex cyclicality',     0.45, 0.85,  10,  4),
+        ('Customer concentration (top 2 = 60%)', 0.35, 0.80, 10, 4),
+        ('Margin compression on rack-scale',  0.30, 0.55, -10, 14),  # bumped up
+        ('VMware enterprise churn',           0.45, 0.45,  10, -16), # bumped down
+        ('COT competition (Google Zebrafish)', 0.20, 0.65, 10, 4),
+        ('China export restrictions',          0.50, 0.55, 10, 4),
+        ('AI bubble revaluation',              0.35, 0.95, 10, 4),
+        ('TSMC capacity constraints',          0.40, 0.50, 10, -16),  # below the dot
+        ('FX headwinds',                       0.45, 0.20, 10, 4),
+        ('Hock Tan succession',                0.10, 0.70, 10, 4),
     ]
-    fig, ax = plt.subplots(figsize=(10, 7))
-    for name, prob, impact, _ in risks:
+    fig, ax = plt.subplots(figsize=(11, 7))
+    for name, prob, impact, dx, dy in risks:
         score = prob * impact
         color = ACCENT_RED if score > 0.35 else (ACCENT_GOLD if score > 0.20 else ACCENT_GREEN)
-        ax.scatter(prob, impact, s=400, color=color, alpha=0.78, edgecolor='white', linewidth=2)
-        ax.annotate(name, (prob, impact), xytext=(8, 8), textcoords='offset points',
-                    fontsize=8, color=NYU_DARK)
+        ax.scatter(prob, impact, s=420, color=color, alpha=0.78, edgecolor='white', linewidth=2)
+        ax.annotate(name, (prob, impact), xytext=(dx, dy), textcoords='offset points',
+                    fontsize=8.5, color=NYU_DARK, fontweight='bold')
     ax.axhline(0.5, color='#888', linestyle=':', linewidth=0.6)
     ax.axvline(0.5, color='#888', linestyle=':', linewidth=0.6)
     ax.set_xlim(0, 1)
@@ -517,26 +531,31 @@ def fig12_analyst_pts():
     df = pd.DataFrame(analysts, columns=['Firm', 'Rating', 'PT']).sort_values('PT')
     spot = 422.76
 
-    fig, ax = plt.subplots(figsize=(11, 5))
+    fig, ax = plt.subplots(figsize=(12, 5.5))
     rating_colors = {'OW': ACCENT_GREEN, 'OP': NYU_VIOLET, 'B': NYU_LIGHT,
                      'N': ACCENT_GOLD, 'UW': ACCENT_RED}
     bars = ax.barh(df['Firm'], df['PT'],
                    color=[rating_colors.get(r, NYU_GREY) for r in df['Rating']],
-                   edgecolor='white', linewidth=1.5)
+                   edgecolor='white', linewidth=1.5, height=0.7)
     for i, (_, row) in enumerate(df.iterrows()):
-        ax.text(row['PT'] + 5, i, f"  ${row['PT']:.0f} ({row['Rating']})",
-                va='center', fontsize=9, color=NYU_DARK)
+        ax.text(row['PT'] + 8, i, f"${row['PT']:.0f} ({row['Rating']})",
+                va='center', fontsize=9, color=NYU_DARK, fontweight='bold')
 
-    ax.axvline(spot, color=ACCENT_RED, linestyle='--', linewidth=1.6,
-               label=f'Spot ${spot:.0f}')
+    ax.axvline(spot, color=ACCENT_RED, linestyle='--', linewidth=1.8,
+               label=f'Spot ${spot:.0f}', zorder=1, alpha=0.8)
     median_pt = df['PT'].median()
-    ax.axvline(median_pt, color=NYU_DARK, linestyle=':', linewidth=1.6,
-               label=f'Median PT ${median_pt:.0f}')
+    ax.axvline(median_pt, color=NYU_DARK, linestyle=':', linewidth=1.8,
+               label=f'Median PT ${median_pt:.0f}', zorder=1, alpha=0.8)
+    # Spot label at top, median label at top-right
+    ax.text(spot, len(df) - 0.3, f'  Spot\n  ${spot:.0f}', color=ACCENT_RED, fontsize=9,
+            fontweight='bold', va='top')
+    ax.text(median_pt, len(df) - 0.3, f'  Median\n  ${median_pt:.0f}', color=NYU_DARK, fontsize=9,
+            fontweight='bold', va='top')
     ax.set_xlabel('12-month price target ($)')
     ax.set_title('Sell-side price target distribution — median $460, 8 of 11 above current spot',
                  loc='left', color=NYU_DARK)
-    ax.legend(loc='lower right')
-    ax.set_xlim(250, 660)
+    ax.legend(loc='lower right', frameon=True, framealpha=0.95)
+    ax.set_xlim(250, 680)
     ax.xaxis.set_major_formatter(mtick.FuncFormatter(lambda x, _: f'${x:.0f}'))
     plt.tight_layout()
     plt.savefig(f'{FIG_DIR}/fig12_analyst_pts.png')

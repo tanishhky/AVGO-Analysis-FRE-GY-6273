@@ -82,49 +82,43 @@
 
 \begin{tikzpicture}[remember picture,overlay]
 
-% --- Top white band with firm logo (logo_big.png) ---
+% --- Top white band with firm logos only ---
 \fill[white] (current page.north west) rectangle ([yshift=-0.85in]current page.north east);
 \node[anchor=north west,inner sep=0pt]
   at ([xshift=0.6in,yshift=-0.22in]current page.north west)
-  {\includegraphics[height=0.22in]{logo_small.png}\hspace{6pt}\includegraphics[height=0.42in]{logo_big.png}};
-
-% Date / identifier right-aligned in the white band
-\node[anchor=north east,text=nyugrey,font=\fontsize{10}{12}\sffamily,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-0.28in]current page.north east) {25 April 2026};
-\node[anchor=north east,text=nyugrey,font=\fontsize{9}{11}\sffamily,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-0.46in]current page.north east) {Sector: Technology};
-\node[anchor=north east,text=nyugrey,font=\fontsize{9}{11}\sffamily,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-0.60in]current page.north east) {Industry: Semiconductors \& Software};
-\node[anchor=north east,text=nyudark,font=\fontsize{9}{11}\itshape,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-0.74in]current page.north east) {NYU MSFE Equity Research \textbar{} Initiation of Coverage};
+  {\includegraphics[height=0.52in]{logo_small.png}\hspace{8pt}\includegraphics[height=0.52in]{logo_big.png}};
 
 % --- Violet accent stripe ---
 \fill[nyuviolet] ([yshift=-0.85in]current page.north west) rectangle ([yshift=-0.90in]current page.north east);
 
-% --- Black band with Broadcom logo + ticker ---
-\fill[tickerblack] ([yshift=-0.90in]current page.north west) rectangle ([yshift=-1.80in]current page.north east);
+% --- Black band with all stock info ---
+\fill[tickerblack] ([yshift=-0.90in]current page.north west) rectangle ([yshift=-1.95in]current page.north east);
 
-% Broadcom logo (left side of black band)
+% Left side: Broadcom logo + date + sector + industry
 \node[anchor=north west,inner sep=0pt]
-  at ([xshift=0.6in,yshift=-1.05in]current page.north west)
-  {\includegraphics[height=0.50in]{broadcom_logo.png}};
+  at ([xshift=0.6in,yshift=-0.98in]current page.north west)
+  {\includegraphics[height=0.55in]{broadcom_logo.png}};
+% \node[anchor=north west,text=white!80,font=\fontsize{9}{11}\sffamily,inner sep=0pt]
+%   at ([xshift=0.6in,yshift=-1.58in]current page.north west) {25 April 2026};
+\node[anchor=north west,text=white!60,font=\fontsize{12}{15}\sffamily,inner sep=0pt]
+  at ([xshift=0.6in,yshift=-1.72in]current page.north west) {Sector: Technology \textbar{} Semiconductors \& Software};
+% \node[anchor=north west,text=white!50,font=\fontsize{8}{10}\itshape,inner sep=0pt]
+%   at ([xshift=0.6in,yshift=-1.84in]current page.north west) {NYU MSFE Equity Research \textbar{} Initiation of Coverage};
 
-% Ticker text next to logo
-\node[anchor=north west,text=white,font=\fontsize{30}{36}\bfseries,inner sep=0pt]
-  at ([xshift=2.25in,yshift=-1.05in]current page.north west) {AVGO};
-\node[anchor=north west,text=white!70,font=\fontsize{10}{12}\sffamily,inner sep=0pt]
-  at ([xshift=2.25in,yshift=-1.45in]current page.north west) {NASDAQ \textbar{} BROADCOM INC \textbar{} USD};
-
-% Price + change (right side of black band)
-\node[anchor=north east,text=white,font=\fontsize{28}{34}\bfseries,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-1.05in]current page.north east) {\$422.76};
-\node[anchor=north east,text=accentgreen!70!white,font=\fontsize{11}{14}\bfseries\sffamily,inner sep=0pt]
-  at ([xshift=-0.6in,yshift=-1.45in]current page.north east) {\(\blacktriangle\) +32.6\% (30D) \quad +121.6\% (12M)};
+% Right side: AVGO ticker, exchange, price, returns (stacked)
+\node[anchor=north east,text=white,font=\fontsize{30}{36}\bfseries,inner sep=0pt]
+  at ([xshift=-0.6in,yshift=-0.98in]current page.north east) {AVGO};
+\node[anchor=north east,text=white!70,font=\fontsize{10}{12}\sffamily,inner sep=0pt]
+  at ([xshift=-0.6in,yshift=-1.35in]current page.north east) {NASDAQ \textbar{} BROADCOM INC \textbar{} USD};
+\node[anchor=north east,text=white,font=\fontsize{22}{28}\bfseries,inner sep=0pt]
+  at ([xshift=-0.6in,yshift=-1.50in]current page.north east) {\$422.76};
+\node[anchor=north east,text=accentgreen!70!white,font=\fontsize{10}{13}\bfseries\sffamily,inner sep=0pt]
+  at ([xshift=-0.6in,yshift=-1.80in]current page.north east) {\(\blacktriangle\) +32.6\% (30D) \quad +121.6\% (12M)};
 
 % --- Headline ---
 \node[anchor=north west,text=tickerblack,font=\fontsize{24}{30}\bfseries,inner sep=0pt,text width=7.2in]
   at ([xshift=0.6in,yshift=-2.15in]current page.north west)
-  {Six-customer XPU franchise + margin-stable AI ramp};
+  {The \$2T AI Compounder: Why Broadcom's Moat Is Wider Than You Think};
 \node[anchor=north west,text=nyuviolet,font=\fontsize{14}{18}\bfseries,inner sep=0pt,text width=7.2in]
   at ([xshift=0.6in,yshift=-3.10in]current page.north west)
   {Initiating BUY \textbar{} 12-month PT \$475 \textbar{} +12\% upside};
@@ -140,12 +134,19 @@
 \node[anchor=west,text=accentgreen,font=\fontsize{12}{14}\bfseries]
   at ([xshift=2.85in,yshift=-4.23in]current page.north west) {Implied upside +12.3\%};
 
+\node[anchor=north west,inner sep=0pt]
+  at ([xshift=0.6in,yshift=-4.80in]current page.north west) {%
+\includegraphics[width=3.55in]{fig1_price_chart.png}};
+
+\node[anchor=north east,inner sep=0pt]
+  at ([xshift=-0.55in,yshift=-4.80in]current page.north east) {%
+\includegraphics[width=3.55in]{fig4_football_field.png}};
 % =============================================================================
-% Tearsheet body: 2-column layout below the header strip
+% Tables side by side (3 columns below charts)
 % =============================================================================
-% Left column - data tables (compact, stacked)
-\node[anchor=north west,inner sep=0pt,text width=2.6in]
-  at ([xshift=0.6in,yshift=-4.6in]current page.north west) {%
+% Left table - Market Data
+\node[anchor=north west,inner sep=0pt,text width=2.4in]
+  at ([xshift=0.6in,yshift=-6.90in]current page.north west) {%
 \renewcommand{\arraystretch}{1.0}\setlength{\tabcolsep}{3pt}%
 {\color{nyuviolet}\rule{\linewidth}{0.5pt}}\\[-2pt]
 {\scriptsize\bfseries\color{nyuviolet}MARKET DATA \& FY25A OPERATING}\\[-3pt]
@@ -160,7 +161,13 @@ Beta (5Y / 2Y) & 1.63 / 1.20 \\
 Revenue / EBITDA & \$63.9B / \$43.2B \\
 EBITDA margin / EPS & 67.7\% / \$6.82 \\
 FCF / NetDebt-EBITDA & \$26.9B / 1.13$\times$ \\
-\end{tabularx}}\\[4pt]
+\end{tabularx}}
+};
+
+% Middle table - Valuation Triangulation
+\node[anchor=north,inner sep=0pt,text width=2.4in]
+  at ([yshift=-6.90in]current page.north) {%
+\renewcommand{\arraystretch}{1.0}\setlength{\tabcolsep}{3pt}%
 {\color{nyuviolet}\rule{\linewidth}{0.5pt}}\\[-2pt]
 {\scriptsize\bfseries\color{nyuviolet}VALUATION TRIANGULATION}\\[-3pt]
 {\color{nyuviolet}\rule{\linewidth}{0.3pt}}\\[1pt]
@@ -171,9 +178,15 @@ SOTP (FY27E EV/EBITDA) & \$401 \\
 Comps Fwd P/E (22$\times$) & \$440 \\
 Comps EV/EBITDA (18$\times$) & \$409 \\
 Monte Carlo median & \$456 \\
-Street median (n=11) & \$477 \\
+Street median (n=11) & \$460 \\
 \rowcolor{rowshade}\color{nyuviolet}\textbf{Our 12M PT} & \textbf{\$475} \\
-\end{tabularx}}\\[4pt]
+\end{tabularx}}
+};
+
+% Right table - Key Catalysts
+\node[anchor=north east,inner sep=0pt,text width=2.4in]
+  at ([xshift=-0.55in,yshift=-6.90in]current page.north east) {%
+\renewcommand{\arraystretch}{1.0}\setlength{\tabcolsep}{3pt}%
 {\color{nyuviolet}\rule{\linewidth}{0.5pt}}\\[-2pt]
 {\scriptsize\bfseries\color{nyuviolet}KEY CATALYSTS (NEXT 12M)}\\[-3pt]
 {\color{nyuviolet}\rule{\linewidth}{0.3pt}}\\[2pt]
@@ -186,15 +199,6 @@ H2-2026     & OpenAI rack ship \\
 Dec-2026    & Q4 + FY27 guide \\
 \end{tabularx}}
 };
-
-% Right column - price chart (top) + football field (below), now wider
-\node[anchor=north east,inner sep=0pt]
-  at ([xshift=-0.55in,yshift=-4.6in]current page.north east) {%
-\includegraphics[width=4.4in]{fig1_price_chart.png}};
-
-\node[anchor=north east,inner sep=0pt]
-  at ([xshift=-0.55in,yshift=-6.55in]current page.north east) {%
-\includegraphics[width=4.4in]{fig4_football_field.png}};
 
 % =============================================================================
 % Team photo + byline footer (compact)
@@ -228,7 +232,7 @@ We are constructive on the \textbf{operating story}: AI semiconductor revenue gr
 
 We are constructive on \textbf{valuation despite the rally}: shares are up 32.6\% in 30 days but our Monte Carlo's $E[\text{intrinsic}] = \$471$ exceeds spot, and the right tail is fat (P75 \$544, P95 \$711) reflecting realistic upside if FY27 AI revenue prints at the high end of the analyst range (\$130--150B per UBS / Barclays). The 50.8\% probability we calculated under a more conservative \$115B FY27 AI mean rises to 60.7\% at \$125B---closer to the Street midpoint.
 
-Our PT of \$475 sits at the Street median (\$477) and below the mean. We see further upside if the December 2026 FY27 guide validates the \$120B+ AI revenue scale.
+Our PT of \$475 sits above the Street median (\$460) and reflects our view that the bear-case PTs from D.A.\ Davidson (\$335) and Cantor Fitzgerald (\$300) are unlikely to materialize given the catalyst path. We see further upside if the December 2026 FY27 guide validates the \$120B+ AI revenue scale.
 \end{minipage}\hfill
 \begin{minipage}[t]{0.42\textwidth}
 \vspace{0pt}
@@ -252,7 +256,7 @@ Comps P/E (mid) & \$440 \\
 Comps EV/EBITDA & \$409 \\
 MC median       & \$456 \\
 MC P($>$spot)   & 60.7\% \\
-Street median   & \$477 \\
+Street median   & \$460 \\
 \bottomrule
 \end{tabular}
 \end{minipage}
@@ -264,7 +268,7 @@ Street median   & \$477 \\
 \item \textbf{Customer concentration is a real risk but a rapidly diversifying one.} Google TPU drives $\sim$50\% of AI revenue today---falling to 35\% by FY27 as Anthropic ($\sim$\$42B), Meta MTIA (multi-GW), and OpenAI (>1GW) ramp. The portfolio effect cushions individual program risk.
 \item \textbf{Margins are the upside surprise that has not yet been priced.} Management reversed its prior rack-scale margin warning, now guiding flat 77\% gross margin through FY27 as the mix shifts toward higher-attach networking (40\% of AI revenue in Q2). This alleviates the largest investor overhang from December 2025.
 \item \textbf{Competitive moat is wider than market gives credit for.} JPMorgan's primary research suggests Broadcom maintains an 18-month design lead over Google's internal Zebrafish COT effort, and the company has won the next-gen 2nm TPU. Marvell's recent Alphabet engagement is at the early stage and unlikely to displace Broadcom share through 2028.
-\item \textbf{Recommendation derived from analysis.} Six valuation methods converge: MC median \$456, DCF \$436, Comps P/E \$440, Comps EV/EBITDA \$409, SOTP \$401, Street median \$477. Our \$475 PT sits at the Street median---a level we view as defensible given the catalyst path through year-end.
+\item \textbf{Recommendation derived from analysis.} Six valuation methods converge: MC median \$456, DCF \$436, Comps P/E \$440, Comps EV/EBITDA \$409, SOTP \$401, Street median \$460. Our \$475 PT sits modestly above the Street median, reflecting the catalyst path through year-end and the right-tail in our Monte Carlo distribution.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -363,7 +367,7 @@ Evercore ISI  & OP  & 582 & --    \\
 Citi          & B   & 460 & --    \\
 BofA          & B   & 445 & --    \\
 \arrayrulecolor{nyuviolet}\midrule
-\textbf{Median (n=11)} & \textbf{8 OW} & \textbf{477} & -- \\
+\textbf{Median (n=11)} & \textbf{9 Buy/OW} & \textbf{460} & -- \\
 \arrayrulecolor{nyuviolet}\bottomrule
 \end{tabular}
 \caption{Street positioning summary. Source: Sell-side reports (Mar--Apr 2026); team analysis.}
@@ -388,12 +392,12 @@ Deutsche Bank & R.\ Seymore  & B  & 430 & --    & 23$\times$ \\
 \caption{Major sell-side post-Q1 FY26 updates. Source: Sell-side reports (Mar 2026); team analysis.}
 \end{table}
 
-The mean PT of the eleven covering firms in our dataset is \$469; the median is \$477. Eight of eleven sit above the current spot price.
+The mean PT of the eleven covering firms in our dataset is \$449; the median is \$460. Eight of eleven sit above the current spot price.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\textwidth]{fig12_analyst_pts.png}
-\caption{Sell-side price-target distribution. Median \$477; 8 of 11 firms above spot. Source: Benzinga, individual broker reports.}
+\caption{Sell-side price-target distribution. Median \$460; 8 of 11 firms above spot. Source: Benzinga, individual broker reports.}
 \end{figure}
 
 \newpage
@@ -420,7 +424,7 @@ The single most consequential commentary was the reversal of the December 2025 m
 
 \subsection{Five-year operating projection}
 
-We project FY26E revenue of \$105 billion (+64\% YoY) and FY30E revenue of \$292 billion, with AI semi growing from \$60 billion in FY26 to \$235 billion by FY30 (a 41\% five-year CAGR). Our FY27 AI revenue assumption of \$115 billion sits at the midpoint of the analyst range (\$100--150 billion) and within management's stated ``more than \$100 billion'' guidance.
+We project FY26E revenue of \$105 billion (+64\% YoY) and FY30E revenue of \$292 billion, with AI semi growing from \$60 billion in FY26 to \$235 billion by FY30 (a 41\% five-year CAGR). Our deterministic FY27 AI revenue assumption of \$115 billion sits at the conservative end of the analyst range (\$100--150 billion) and within management's stated ``more than \$100 billion'' guidance. Note that our Monte Carlo simulation (Section 4.4) recalibrates the FY27 AI mean to \$125B---the Street consensus midpoint---to capture the full distribution of plausible outcomes.
 
 \begin{figure}[!ht]
 \centering
@@ -475,7 +479,7 @@ We employ four discrete methods and synthesize them in a football-field framewor
 
 \textbf{Forecast horizon.} Five-year explicit forecast of FCFF (FY26E--FY30E), with mid-year discounting, plus a Gordon-growth terminal value at 3.0\% perpetuity growth. Terminal value represents 80\% of total enterprise value---a high but not unreasonable share for a growth franchise.
 
-\textbf{Result.} The base-case DCF implies a price of \$444 per share (5.1\% upside), with the WACC$\times$g sensitivity producing a \$402--\$474 range at $\pm$100bps WACC and base terminal growth.
+\textbf{Result.} The base-case DCF implies a price of \$436 per share (3.1\% upside), with the WACC$\times$g sensitivity producing a \$402--\$474 range at $\pm$100bps WACC and base terminal growth.
 
 \begin{figure}[!ht]
 \centering
@@ -561,7 +565,7 @@ Probability $>$ spot & \textbf{60.7\%} & 95th percentile & \$711 \\
 \caption{Monte Carlo intrinsic-price distribution. Source: Team analysis.}
 \end{figure}
 
-The 60.7\% probability that intrinsic value exceeds spot, combined with $E[\text{intrinsic}] = \$471$ vs.\ spot of \$423, supports our BUY rating.
+The 60.7\% probability that intrinsic value exceeds spot, combined with $E[\text{intrinsic}] = \$471$ vs.\ spot of \$422.76, supports our BUY rating.
 
 \subsection{Football field synthesis}
 
@@ -571,7 +575,7 @@ The 60.7\% probability that intrinsic value exceeds spot, combined with $E[\text
 \caption{Valuation football field. Source: Team analysis.}
 \end{figure}
 
-The methods cluster within a defensible \$400--\$510 range. Our December-2026 price target of \$475 sits at the Street median and roughly at the MC mean---a level consistent with FY27 AI revenue printing in the \$120--130B range (where management's ``\$100B+'' floor and Street upper-bound converge).
+The methods cluster within a defensible \$400--\$510 range. Our December-2026 price target of \$475 sits modestly above the Street median (\$460) and roughly at the Monte Carlo mean (\$471)---a level consistent with FY27 AI revenue printing in the \$120--130B range (where management's ``\$100B+'' floor and Street upper-bound converge).
 
 \newpage
 
@@ -638,7 +642,7 @@ Dec-2026    & Q4 FY26 / FY27 guide & Critical for valuation; \$100B+ FY27 AI rev
 
 Broadcom is the second-most-important AI infrastructure stock in the world after Nvidia, with a defensible six-customer XPU franchise, dominant networking silicon, and a high-margin software runway from VMware. The operating story over the next 24 months is clear and likely to be impressive in absolute terms.
 
-After a 121.6\% twelve-month run, our DCF, SOTP, and comps cluster at \$400--440, but our Monte Carlo (calibrated to the Street consensus FY27 AI midpoint of \$125B) gives a 60.7\% probability of upside vs.\ spot with $E[\text{intrinsic}] = \$471$. We initiate at BUY with a \$475 December-2026 price target, equivalent to 12\% upside and in line with the Street median (\$477). We would consider further upgrading our PT on a positive print to FY27 AI revenue scale at the December 2026 guide.
+After a 121.6\% twelve-month run, our DCF, SOTP, and comps cluster at \$400--440, but our Monte Carlo (calibrated to the Street consensus FY27 AI midpoint of \$125B) gives a 60.7\% probability of upside vs.\ spot with $E[\text{intrinsic}] = \$471$. We initiate at BUY with a \$475 December-2026 price target, equivalent to 12\% upside and modestly above the Street median (\$460). We would consider further upgrading our PT on a positive print to FY27 AI revenue scale at the December 2026 guide.
 
 \vfill
 {\footnotesize\color{nyugrey}\textbf{Sources cited.} Broadcom Inc.\ Q1 FY2026 8-K (4-Mar-26); Broadcom 10-K FY2025; JPMorgan Equity Research, H.\ Sur (5-Mar-26 \& 25-Jan-26); Mizuho Securities, V.\ Rakesh (4-Mar-26); UBS Equities, T.\ Arcuri (5-Mar-26); Wells Fargo Securities, A.\ Rakers (4-Mar-26); Deutsche Bank Research, R.\ Seymore (4-Mar-26); Barclays Research, T.\ O'Malley (5-Mar-26); Bloomberg Equity Demo Tearsheet (12-Mar-26); company investor relations releases; Yahoo Finance via \texttt{yfinance}; Damodaran NYU Stern (2025 implied ERP). Reports accessed via NYU Bobst Library and provided to author Tanishk Yadav.}\\[6pt]
