@@ -37,8 +37,8 @@ np.random.seed(42)
 # =========================================================================
 ASSUMPTIONS = {
     'fiscal_year_end': 'Oct',
-    'report_date': '2026-04-25',
-    'spot_price': 422.76,
+    'report_date': '2026-04-29',
+    'spot_price': 399.83,
     'shares_diluted_mn': 4969.0,
     'net_debt_25_mn': 48958.0,
     # FY25A actuals (10-K)

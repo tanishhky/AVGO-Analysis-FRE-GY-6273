@@ -11,6 +11,7 @@ import matplotlib.ticker as mtick
 import matplotlib.patches as mpatches
 import numpy as np
 import pandas as pd
+import json
 import os
 import warnings
 
@@ -202,9 +203,10 @@ def fig3_margins():
 # ============================================================
 def fig4_football_field():
     ff = pd.read_csv(f'{OUT_DIR}/football_field.csv')
-    spot = 422.76
+    with open(f'{OUT_DIR}/summary.json') as _f:
+        spot = json.load(_f)['spot_price']
 
-    fig, ax = plt.subplots(figsize=(11, 5))
+    fig, ax = plt.subplots(figsize=(11, 6))
     y_positions = range(len(ff))
     colors = [NYU_VIOLET, NYU_LIGHT, ACCENT_GOLD, NYU_DARK, ACCENT_GREEN, NYU_GREY]
 
@@ -218,12 +220,14 @@ def fig4_football_field():
                 fontsize=8, color='#333')
 
     ax.axvline(spot, color=ACCENT_RED, linestyle='-', linewidth=2.0, alpha=0.85, zorder=4)
-    ax.text(spot, len(ff) - 0.3, f'  Spot ${spot:.2f}', color=ACCENT_RED, fontsize=10,
-            fontweight='bold', va='top')
+    # Place spot label well above the top bar with clear gap
+    ax.annotate(f'  Spot ${spot:.2f}', xy=(spot, -0.9), fontsize=9, color=ACCENT_RED,
+                fontweight='bold', ha='left', va='bottom')
 
     ax.set_yticks(y_positions)
     ax.set_yticklabels(ff['Method'])
     ax.invert_yaxis()
+    ax.set_ylim(len(ff) - 0.5, -1.3)  # extra top margin for label
     ax.set_xlabel('Implied price per share (USD)')
     ax.set_title('Football field — converging on $400-470 fair-value range',
                  loc='left', color=NYU_DARK)
@@ -241,7 +245,8 @@ def fig4_football_field():
 # ============================================================
 def fig5_monte_carlo():
     mc = pd.read_csv(f'{OUT_DIR}/mc_distribution.csv')['price'].values
-    spot = 422.76
+    with open(f'{OUT_DIR}/summary.json') as _f:
+        spot = json.load(_f)['spot_price']
 
     fig, ax = plt.subplots(figsize=(12, 5.5))
     n, bins, patches = ax.hist(mc, bins=60, color=NYU_VIOLET, alpha=0.78, edgecolor='white')
@@ -529,7 +534,8 @@ def fig12_analyst_pts():
         ('D.A. Davidson', 'N',   335),
     ]
     df = pd.DataFrame(analysts, columns=['Firm', 'Rating', 'PT']).sort_values('PT')
-    spot = 422.76
+    with open(f'{OUT_DIR}/summary.json') as _f:
+        spot = json.load(_f)['spot_price']
 
     fig, ax = plt.subplots(figsize=(12, 5.5))
     rating_colors = {'OW': ACCENT_GREEN, 'OP': NYU_VIOLET, 'B': NYU_LIGHT,
@@ -546,13 +552,11 @@ def fig12_analyst_pts():
     median_pt = df['PT'].median()
     ax.axvline(median_pt, color=NYU_DARK, linestyle=':', linewidth=1.8,
                label=f'Median PT ${median_pt:.0f}', zorder=1, alpha=0.8)
-    # Spot label at top, median label at top-right
-    ax.text(spot, len(df) - 0.3, f'  Spot\n  ${spot:.0f}', color=ACCENT_RED, fontsize=9,
-            fontweight='bold', va='top')
-    ax.text(median_pt, len(df) - 0.3, f'  Median\n  ${median_pt:.0f}', color=NYU_DARK, fontsize=9,
-            fontweight='bold', va='top')
+    # Labels via legend only — removes overlap with bars
+    # (legend entries created in axvline calls above)
     ax.set_xlabel('12-month price target ($)')
-    ax.set_title('Sell-side price target distribution — median $460, 8 of 11 above current spot',
+    n_above = (df['PT'] > spot).sum()
+    ax.set_title(f'Sell-side price target distribution — median $460, {n_above} of {len(df)} above current spot',
                  loc='left', color=NYU_DARK)
     ax.legend(loc='lower right', frameon=True, framealpha=0.95)
     ax.set_xlim(250, 680)
