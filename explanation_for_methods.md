@@ -1,4 +1,3 @@
-Great prep question — these are exactly the kinds of conceptual questions a finance prof or industry interviewer will probe. Let me walk through all four methods in detail.
 
 ---
 
@@ -228,5 +227,3 @@ That's why we use four methods. DCF gives the "fundamental" answer, SOTP gives t
 **"Did you correlate your inputs?"** No, all inputs are independently drawn. That's a known simplification — in reality, AI revenue and EBITDA margin would be positively correlated (operating leverage). Modeling that correctly would *narrow* our distribution somewhat, which would actually strengthen the BUY thesis.
 
 **"What's the difference between Monte Carlo and a tornado chart?"** Tornado is one-variable-at-a-time (univariate sensitivity). Monte Carlo is all-variables-at-once (multivariate). Tornado tells you which input matters most in isolation; Monte Carlo tells you the full joint distribution.
-
-Want me to draft a backup slide on Monte Carlo specifically — something you could pull up if a professor asks "explain Monte Carlo to me"? It would have the 6-input table, a small histogram, and a one-line takeaway.
